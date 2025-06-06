@@ -15,6 +15,7 @@ file_list = [
     "oshkosh_climate_data.csv",
     "sheboygan_climate_data.csv"
 ]
+
 rename_dict = {
     "Fondy": "Fond Du Lac",
     "Gb": "Green Bay"
@@ -25,7 +26,10 @@ climate_data = load_climate_data(data_folder, file_list)
 precip_summary = summarize_annual(climate_data, "MonthlyTotalLiquidPrecipitation")
 filtered_data = prep_annual_data(precip_summary, rename_dict)
 
-# Step 3: Lineplot (excluding average)
+###################################################
+# Lineplot: Total Annual Precipitation by Station #
+###################################################
+
 station_only = filtered_data[filtered_data["Station"] != "Average"]
 
 plt.figure(figsize=(12, 6))
@@ -41,7 +45,10 @@ plt.tight_layout()
 plt.savefig("images/precip_by_station_trend.png")
 plt.show()
 
-# Step 4: Create separate barplot for the average only
+########################################################################
+# Barplot: Average Total Annual Precipitation Across all Four Stations #
+########################################################################
+
 avg_only = filtered_data[filtered_data["Station"] == "Average"]
 
 plt.figure(figsize=(12, 6))
@@ -59,7 +66,10 @@ plt.show()
 tstorm_summary = summarize_annual(climate_data, "DYTS")
 tstorm_filtered = prep_annual_data(tstorm_summary, rename_dict)
 
-# --- Lineplot: Thunderstorm Days by Station ---
+##########################################
+# Lineplot: Thunderstorm Days by Station #
+##########################################
+
 tstorm_station_only = tstorm_filtered[tstorm_filtered["Station"] != "Average"]
 
 plt.figure(figsize=(12, 6))
@@ -75,7 +85,10 @@ plt.tight_layout()
 plt.savefig("images/tstorm_by_station_trend.png")
 plt.show()
 
-# --- Barplot: Average Thunderstorm Days ---
+######################################
+# Barplot: Average Thunderstorm Days #
+######################################
+
 tstorm_avg_only = tstorm_filtered[tstorm_filtered["Station"] == "Average"]
 
 plt.figure(figsize=(12, 6))
@@ -93,7 +106,10 @@ plt.show()
 monthly_precip = compute_monthly_average(climate_data, "MonthlyTotalLiquidPrecipitation")
 monthly_tstorms = compute_monthly_average(climate_data, "DYTS")
 
-# Bar plot: Monthly Avg Precipitation
+#######################################
+# Bar plot: Monthly Avg Precipitation #
+#######################################
+
 plt.figure(figsize=(10, 5))
 sns.barplot(data=monthly_precip, x="Month", y="MonthlyTotalLiquidPrecipitation", color="steelblue")
 plt.title("Average Monthly Precipitation \n in Northeast WI from 2010 - 2024", fontsize=16)
@@ -108,7 +124,10 @@ plt.tight_layout()
 plt.savefig("images/monthly_avg_precip_barplot.png")
 plt.show()
 
-# Bar plot: Monthly Avg Thunderstorm Days
+###########################################
+# Bar plot: Monthly Avg Thunderstorm Days #
+###########################################
+
 plt.figure(figsize=(10, 5))
 sns.barplot(data=monthly_tstorms, x="Month", y="DYTS", color="darkorange")
 plt.title("Average Monthly Thunderstorm Days \n in Northeast WI from 2010 - 2024", fontsize=16)
